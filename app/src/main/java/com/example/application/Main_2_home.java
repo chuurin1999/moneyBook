@@ -83,12 +83,12 @@ public class Main_2_home extends Fragment {
                 //利用sqlitedatabase物件操作資料庫
                 bookDB.execSQL("CREATE TABLE " + DB_TABLE + "(" +
                         "_id INTEGER PRIMARY KEY," +
-                        "date Text," +
-                        "money INTEGER," +
-                        "hint Text," +
-//                        "sp1 Text,"+
-//                        "sp2 Text,"+
-                        "note Text);");
+                        "日期 Text," +
+                        "NT$ INTEGER," +
+                        "摘要 Text," +
+                        "狀態 Text,"+
+                        "詳細狀態 Text,"+
+                        "備註 Text);");
             cursor.close();
         }
         //11111111111-------------------------------------------------------------------------------------------------------------------------------
@@ -116,18 +116,15 @@ public class Main_2_home extends Fragment {
         public void onClick(View view) {
             SQLiteDatabase bookDB = mBookeepDBOpenHelper.getWritableDatabase();
             ContentValues newRow = new ContentValues();
-            newRow.put("date", mButton10.getText().toString());
-            newRow.put("money", mMoney_nt.getText().toString());
-            newRow.put("hint", mCaption.getText().toString());
-///33333333333333--------------------------------------------------------------------------------------------
-//            newRow.put("sp1", sp.getSelectedItem().toString());
-//            newRow.put("sp2", sp2.getSelectedItem().toString());
-            //33333333333333333------------------------------------------------------------------------------------------------
-            newRow.put("note", mNote.getText().toString());
+            newRow.put("日期", mButton10.getText().toString());
+            newRow.put("NT$", mMoney_nt.getText().toString());
+            newRow.put("摘要", mCaption.getText().toString());
+            newRow.put("狀態", sp.getSelectedItem().toString());
+            newRow.put("詳細狀態", sp2.getSelectedItem().toString());
+            newRow.put("備註", mNote.getText().toString());
             bookDB.insert(DB_TABLE, null, newRow);
             bookDB.close();
-            //03.27.1
-
+            //03.27.1  利用bundle傳資料
             String dat = mButton10.getText().toString();
             int mon = Integer.parseInt(mMoney_nt.getText().toString());
             String hin = mCaption.getText().toString();
@@ -150,9 +147,9 @@ public class Main_2_home extends Fragment {
         }
     };
     //44444444444-----------------------------------------------------------------------------------------------------------------
-    private final View.OnClickListener btnListonClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+//    private final View.OnClickListener btnListonClick = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
 //            //03.27.1
 //            Intent myIntent = new Intent(getActivity(), Main_3_1_2_4a_3.class); //Intent是一种运行时绑定（run-time binding）机制，它能在程序运行过程中连接两个不同的组件。在存放资源代码的文件夹下下，
 //            Bundle myBundle = new Bundle();
@@ -175,10 +172,8 @@ public class Main_2_home extends Fragment {
 //                    mTxtlist.append("\n" + c.getString(0) + c.getString(1) +
 //                            c.getString(2) + c.getString(3));
 //            }
-        }
-    };
-    //44444444444444444--------------------------------------------------------------------------------------------------------------
-    //--------------------------------------------------------------------------------------------------------------
+//        }
+//    };
     //第一個下拉類別的監看
     private AdapterView.OnItemSelectedListener selectListener = new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
@@ -189,12 +184,9 @@ public class Main_2_home extends Fragment {
             //載入第二個下拉選單Spinner
             sp2.setAdapter(adapter2);
         }
-
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
 
         }
     };
-    //-------------------------------------------------------------------------------------------------------------------------------
-    
 }
