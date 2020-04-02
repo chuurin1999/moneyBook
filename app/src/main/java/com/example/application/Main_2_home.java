@@ -40,8 +40,8 @@ public class Main_2_home extends Fragment {
     ArrayAdapter<String> adapter2;
     //--------------------->
 
-    private TextView mTxtlist;
-    private Button btn;
+//    private TextView mTxtlist;
+//    private Button btn;
     public Main_2_home() {
     }
 
@@ -102,10 +102,12 @@ public class Main_2_home extends Fragment {
         mCaption = view.findViewById(R.id.caption);
         mNote = view.findViewById(R.id.note);
 
-        mTxtlist = view.findViewById(R.id.txtList);
+//        mTxtlist = view.findViewById(R.id.txtList);
         Button btnadd = view.findViewById(R.id.btnadd);
+        Button btnClear=view.findViewById(R.id.button11_Clear);
 //        Button btnlist = view.findViewById(R.id.btnlist);
         btnadd.setOnClickListener(btnAddonClick);
+        btnClear.setOnClickListener(btnClearonClick);
 //        btnlist.setOnClickListener(btnListonClick);
 
         return view;
@@ -146,16 +148,25 @@ public class Main_2_home extends Fragment {
 
         }
     };
+    private final View.OnClickListener btnClearonClick = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            clearAll();
+        }
+    };
+    private void clearAll() {//清空目前所選以及所有editText
+        mButton10.setText("");
+        mMoney_nt.setText("");
+        mCaption.setText("");
+        sp.setSelection(0);
+        sp2.setSelection(0);
+        mNote.setText("");
+    }
     //44444444444-----------------------------------------------------------------------------------------------------------------
 //    private final View.OnClickListener btnListonClick = new View.OnClickListener() {
 //        @Override
 //        public void onClick(View v) {
-//            //03.27.1
-//            Intent myIntent = new Intent(getActivity(), Main_3_1_2_4a_3.class); //Intent是一种运行时绑定（run-time binding）机制，它能在程序运行过程中连接两个不同的组件。在存放资源代码的文件夹下下，
-//            Bundle myBundle = new Bundle();
-//            myIntent.putExtras(myBundle); //Optional parameters Activity01.this.startActivity(myIntent);
-//            startActivity(myIntent);//启动
-//            //03.27.1
 //            SQLiteDatabase BookDB = mBookeepDBOpenHelper.getWritableDatabase();
 //            Cursor c = BookDB.query(true, DB_TABLE, new String[]{"date", "money",//顯示全部資料
 //                    "hint", "note"}, null, null, null, null, null, null);
