@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     android:theme="@style/at2"
     tools:context=".Main_2_home">
-    <!--    <TextView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:text="Home Fragment"-->
-    <!--        android:textAppearance="@style/TextAppearance.AppCompat.Display1"-->
-    <!--        android:gravity="center"/>-->
-
-
     <Button
         android:id="@+id/button10"
         android:layout_width="363dp"
@@ -34,11 +26,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.009"
         tools:ignore="OnClick" />
-
-    <!--    android:text="NT$"-->
-    <!--    android:text="摘要"-->
-
-    <!--    android:text="備註"-->
 
     <EditText
         android:id="@+id/money_nt"
@@ -96,8 +83,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/type"
         app:layout_constraintTop_toBottomOf="@+id/caption" />
-<!--    android:entries="@array/options_spinner"-->
-
     <EditText
         android:id="@+id/note"
         android:layout_width="367dp"

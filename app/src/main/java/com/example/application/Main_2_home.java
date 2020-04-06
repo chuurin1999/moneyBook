@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -22,7 +21,7 @@ import androidx.fragment.app.Fragment;
 public class Main_2_home extends Fragment {
     private static final String DB_FILE = "book.db",//定義資料庫檔名和資料表名稱
             DB_TABLE = "book";
-    private BookeepDBOpenHelper mBookeepDBOpenHelper;
+    private MyDBHelper mMyDBHelper;
     private Button mButton10;
     private EditText mMoney_nt,
             mCaption,
@@ -39,45 +38,36 @@ public class Main_2_home extends Fragment {
     ArrayAdapter<String> adapter ;
     ArrayAdapter<String> adapter2;
     //--------------------->
-
 //    private TextView mTxtlist;
 //    private Button btn;
     public Main_2_home() {
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_2_home, container, false);
         //從這-----------------------------------------------------------------------------------------------
         context = getContext();
         Bundle bundle = getActivity().getIntent().getExtras();
-
-
         //程式剛啟始時載入第一個下拉選單
         adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, type);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp = (Spinner) view.findViewById(R.id.type);
         sp.setAdapter(adapter);
         sp.setOnItemSelectedListener(selectListener);
-
         //因為下拉選單第一個為地址，所以先載入地址群組進第二個下拉選單
         adapter2 = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, tea);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp2 = (Spinner) view.findViewById(R.id.type2);
         sp2.setAdapter(adapter2);
         //-----------------------------------------------------------------------------------------------------到這
-
-
-
         //啟動app時檢查是否有資料表,如果沒佑就建立一個
-        mBookeepDBOpenHelper = new BookeepDBOpenHelper(getActivity().getApplicationContext(), DB_FILE, null, 1);
+        mMyDBHelper = new MyDBHelper(getActivity().getApplicationContext(), DB_FILE, null, 1);
         //取得database物件
-        SQLiteDatabase bookDB = mBookeepDBOpenHelper.getWritableDatabase();
+        SQLiteDatabase bookDB = mMyDBHelper.getWritableDatabase();
         //檢查資料表是否存在
         Cursor cursor = bookDB.rawQuery(
                 "select DISTINCT tbl_name from sqlite_master where tbl_name='" +
                         DB_TABLE + "'", null);
-        //1111111------------------------------------------------------------------------------------------------------------------------------
         if (cursor != null) {
             if (cursor.getCount() == 0)//沒有資料表，需要建立 個資料表
                 //利用sqlitedatabase物件操作資料庫
@@ -91,32 +81,25 @@ public class Main_2_home extends Fragment {
                         "備註 Text);");
             cursor.close();
         }
-        //11111111111-------------------------------------------------------------------------------------------------------------------------------
         bookDB.close();//關閉資料庫
         mButton10 = view.findViewById(R.id.button10);
-        //222222222---------------------------------------------------------------------------------------------------------------------------
-//        sp = view.findViewById(R.id.type);
-//        sp2 = view.findViewById(R.id.type2);
-        //2222222222------------------------------------------------------------------------------------------------------------------------
         mMoney_nt = view.findViewById(R.id.money_nt);
         mCaption = view.findViewById(R.id.caption);
         mNote = view.findViewById(R.id.note);
-
-//        mTxtlist = view.findViewById(R.id.txtList);
+//      mTxtlist = view.findViewById(R.id.txtList);
+//      Button btnlist = view.findViewById(R.id.btnlist);
+//      btnlist.setOnClickListener(btnListonClick);
         Button btnadd = view.findViewById(R.id.btnadd);
-        Button btnClear=view.findViewById(R.id.button11_Clear);
-//        Button btnlist = view.findViewById(R.id.btnlist);
         btnadd.setOnClickListener(btnAddonClick);
+        Button btnClear=view.findViewById(R.id.button11_Clear);
         btnClear.setOnClickListener(btnClearonClick);
-//        btnlist.setOnClickListener(btnListonClick);
-
         return view;
     }
 
     private final View.OnClickListener btnAddonClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            SQLiteDatabase bookDB = mBookeepDBOpenHelper.getWritableDatabase();
+            SQLiteDatabase bookDB = mMyDBHelper.getWritableDatabase();
             ContentValues newRow = new ContentValues();
             newRow.put("日期", mButton10.getText().toString());
             newRow.put("NT$", mMoney_nt.getText().toString());
@@ -126,7 +109,7 @@ public class Main_2_home extends Fragment {
             newRow.put("備註", mNote.getText().toString());
             bookDB.insert(DB_TABLE, null, newRow);
             bookDB.close();
-            //03.27.1  利用bundle傳資料
+            //03.27.1  利用bundle傳資料======================利用bundle傳資料==================利用bundle傳資料=======================利用bundle傳資料====
             String dat = mButton10.getText().toString();
             int mon = Integer.parseInt(mMoney_nt.getText().toString());
             String hin = mCaption.getText().toString();
@@ -144,7 +127,7 @@ public class Main_2_home extends Fragment {
             myBundle.putString("not", not);
             myIntent.putExtras(myBundle); //Optional parameters Activity01.this.startActivity(myIntent);
             startActivity(myIntent);//启动
-            //03.27.1
+            //03.27.1======利用bundle傳資料=======================利用bundle傳資料========================利用bundle傳資料====================利用bundle傳資料===============
 
         }
     };
@@ -163,7 +146,6 @@ public class Main_2_home extends Fragment {
         sp2.setSelection(0);
         mNote.setText("");
     }
-    //44444444444-----------------------------------------------------------------------------------------------------------------
 //    private final View.OnClickListener btnListonClick = new View.OnClickListener() {
 //        @Override
 //        public void onClick(View v) {
